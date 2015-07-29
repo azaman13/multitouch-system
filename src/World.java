@@ -57,19 +57,11 @@ public class World extends PApplet{
 
 
 	Detector detector;
-//	int fps = 10;       // default = 15
+    // int fps = 10;       // default = 15
 	float deg = 15; // Start at 15 degrees
 
 	PImage bg;
 	boolean bgTaken = false;
-	
-	
-	
-	
-	
-	
-	
-	//----------------------------------------------
 	//track4 t4;
 	final float MAX_SPEED 		= 	(float).1;
 	final float MIN_SPEED 		= 	(float)-.1;
@@ -86,7 +78,7 @@ public class World extends PApplet{
 	final int player_dist_from_wall = 20;
 	int BIGCNT = 0;
 
-//	PVector[] Hom = new PVector[4];
+	// PVector[] Hom = new PVector[4];
 	boolean HomFul = false;
 
 	final int topL=1;
@@ -104,31 +96,23 @@ public class World extends PApplet{
 		size(640, 480);
 		kinect = new Kinect(this);
 		kinect.start();
-	//	kinect.enableRGB(true);
+		// kinect.enableRGB(true);
 		kinect.enableIR(true);
 
 		
-	//	cam = Hom;
+		// cam = Hom;
 		estimate = true;
-	//	w = 640;
-	//	h = 480;
+		// w = 640;
+		// h = 480;
 		//size(640,480);
-
-
 		homography = Matrix.identity(3, 3);
 		// setting the four projector points
 		proj[0] = new PVector(0, 0, 1);
 		proj[1] = new PVector(width, 0, 1);
 		proj[2] = new PVector(width, height, 1); 
 		proj[3] = new PVector(0, height, 1);
-
-
 		detector = new Detector( this, 0, 0, 640, 480, 255 );
-		fingers = new ArrayList<float[]>();  //x,y, dx, dy, time        LIMIT TO 5??--------------------
-		
-		
-		
-		
+		fingers = new ArrayList<float[]>();  //x,y, dx, dy, time        LIMIT TO 5??
 		background(255);
 		startWorld();
 		smooth();
@@ -137,7 +121,6 @@ public class World extends PApplet{
 
 	@Override
 	public void draw() {
-		
 		if(HomFul){
 			//fill(210, 100);
 			//fill(0);
@@ -145,7 +128,6 @@ public class World extends PApplet{
 			//image(bg,0,0);
 			image(kinect.getVideoImage().get(),0,0);
 			drawBubbles();
-			
 		}
 		else 
 		{
@@ -206,24 +188,19 @@ public class World extends PApplet{
 			else if (dB.getSIZE() > 0) 		{ fill(10,100,200);		} // + bubble //blue
 			else 							{ fill(10,200,50);		} // - bubble //green
 			ellipse(x,y,size,size); // draws bubble
-
 			//checks for collision with other bubbles
-			
 			for(int cnt2=0; cnt2<sizeOF; cnt2++){
 				if(cnt2!=cnt){		
 					bubble dB2 = bubbles.get(cnt2); 
 					float size1= abs(dB2.getSIZE()); 
 					float x1 = dB2.getX();
 					float y1 = dB2.getY();
-
 					float d = sqrt(pow(y-y1,2)+pow(x-x1,2));
 					float range = (size/2)+(size1/2); 
 
 					if(d<=range){	
-
 						float rawSize1 = dB.getSIZE();
 						float rawSize2 = dB2.getSIZE();
-
 						float area1 = (float)Math.PI*(rawSize1/2)*(rawSize1/2);
 						float area2 = (float)Math.PI*(rawSize2/2)*(rawSize2/2); 
 
@@ -233,16 +210,11 @@ public class World extends PApplet{
 						if ((area1+area2) < 0) { neg = -1;}
 
 						float newSize = neg*((float)Math.sqrt( abs(area1+area2) / Math.PI ));
-
-
-
-
 						if (abs(dB.getSIZE()) >= abs(dB2.getSIZE())){	
 							float rate = abs(area2)/abs(area1);
 							dB.setSIZE(newSize*2);
 							dB.setSPEEDX((dB.getSPEEDX()+rate*dB2.getSPEEDX())/(1+rate));
 							dB.setSPEEDY((dB.getSPEEDY()+rate*dB2.getSPEEDY())/(1+rate));
-
 							bubbles.remove(cnt2);
 							sizeOF--;
 							if(cnt>cnt2){
@@ -256,7 +228,6 @@ public class World extends PApplet{
 						{
 							float rate = abs(area1)/abs(area1);
 							dB2.setSIZE(newSize*2);
-
 							dB2.setSPEEDX((dB2.getSPEEDX()+rate*dB.getSPEEDX())/(1+rate));
 							dB2.setSPEEDY((dB2.getSPEEDY()+rate*dB.getSPEEDY())/(1+rate));
 							bubbles.remove(cnt);
@@ -266,31 +237,26 @@ public class World extends PApplet{
 						}						
 					}
 				}
-				
 			}
-		 //FIND
+		 // FIND	
 			if (dB.getPlayerID() == 0)
 			{
-			//dB.setSIZE((random(98,102)/100)*dB.getSIZE());
+			// dB.setSIZE((random(98,102)/100)*dB.getSIZE());
 			}
 		}
 		neg = -1*neg;
 		// handles user imputs
-	//	PImage img = t4.getTracked();
-	//	image(img,0,0);
+		// PImage img = t4.getTracked();
+		// image(img,0,0);
 		ArrayList<float []> trackPoints = getTrackedPoints();
-		
 		//movement changes
-		/*for (int incr = 0; incr < bubbles.ssssize(); incr++ ){
+		/*
+		for (int incr = 0; incr < bubbles.ssssize(); incr++ ){
 			PVector vector = bubbleMovements(incr);
 	        bubbles.get(incr).setSPEEDX((float) (bubbles.get(incr).getSPEEDX()+.07*vector.x));
 	        bubbles.get(incr).setSPEEDY((float) (bubbles.get(incr).getSPEEDY()+.07*vector.y));
-		}*/
-		
-
-	
-		
-		
+		}
+		*/
 		if (!trackPoints.isEmpty())
 		{
 			for(float[] onePoint : trackPoints)
@@ -303,13 +269,9 @@ public class World extends PApplet{
 				{
 					float bubX = bub.getX();
 					float bubY = bub.getY();
-
 					float d = sqrt(pow(tpX-bubX,2)+pow(tpY-bubY,2));
-					
 					float range = abs(bub.getSIZE())/2+20/2; 
-										
 					if(d<=range && abs(ch_x) < 20 && abs(ch_y) < 20){	
-						//println(ch_x+" "+ch_y);
 						if (abs(ch_x) < .0001 && abs(ch_y) < .0001)
 						{
 							bub.setSPEEDX(0);
@@ -327,11 +289,9 @@ public class World extends PApplet{
 			}
 		}
 	}
-
    //only if bubble.playerID ==0
-	public PVector bubbleMovements(int in){//move bubbles so they don't collide as much
-		
-		
+   //move bubbles so they don't collide as much
+	public PVector bubbleMovements(int in){
 		PVector out;
 		float aX = 0;
 		float aY = 0;
@@ -340,90 +300,71 @@ public class World extends PApplet{
 		float y = bubbles.get(in).getY();
 		float sizeIn = bubbles.get(in).getSIZE();
 		
-		if (bubbles.get(in).getPlayerID() == 0){//don't modify movements of players	
-			
+		if (bubbles.get(in).getPlayerID() == 0){
+			//don't modify movements of players	
 			for (int incr = 0; incr < bubbles.size(); incr++){
-				
 				if (incr != in){
-					
 					float distX = (x)-(bubbles.get(incr).getX());
 					float distY = (y)-(bubbles.get(incr).getY());
 					float dist = sqrt(pow(distX,2)+pow(distY,2));
-					
 					float sizeIncr = bubbles.get(incr).getSIZE();
 					float newdist = (float) (abs(sizeIn)+RADIUS_1);
-					
 					//repel from other non players
 					if (dist < newdist) {
-						
-						
 						aX += bubbles.get(incr).getX();
 						aY += bubbles.get(incr).getY();
 						n++;
 					}
-					
-					
-					
 				}
 			}
 			if (n!= 0){
-				
 				out = new PVector(x-aX, y-aY, 0);
 			}
 			else{
-				
 				out = new PVector(0, 0, 0);
 			}
 		}
-		
 		else{
-			
 			out = new PVector(0, 0, 0);
 		}
 		out.normalize();
-		
 		return out;//return output PVector
 	}
 	
-	/*public ArrayList<float[]> getTrackedPoints()
-{	
-	ArrayList<float[]> tps = new ArrayList<float[]>();
-	int points = (int)random(3, 10);
-	for(int cnt=0; cnt< points;cnt++)
-	{
-		int	x = (int)random(0,width);
-		int	y = (int)random(0,height);
-
-		float xD = 0;
-		float yD = 0;
-		while( xD == 0 && yD == 0)
+	/*
+	public ArrayList<float[]> getTrackedPoints()
+	{	
+		ArrayList<float[]> tps = new ArrayList<float[]>();
+		int points = (int)random(3, 10);
+		for(int cnt=0; cnt< points;cnt++)
 		{
-			//xD= random((float)-.5,(float).5);
-			//yD= random((float)-.5,(float).5);
-			xD= random((float)-3,(float)3);
-			yD= random((float)-3,(float)3);
+			int	x = (int)random(0,width);
+			int	y = (int)random(0,height);
+	
+			float xD = 0;
+			float yD = 0;
+			while( xD == 0 && yD == 0)
+			{
+				//xD= random((float)-.5,(float).5);
+				//yD= random((float)-.5,(float).5);
+				xD= random((float)-3,(float)3);
+				yD= random((float)-3,(float)3);
+			}
+			float[] b = {x,y,xD,yD};  
+			tps.add(b);
 		}
-		float[] b = {x,y,xD,yD};  
-		tps.add(b);
+		if (BIGCNT == 100) // keep creating
+		{
+			//startWorld();
+			BIGCNT=0;
+		}
+		BIGCNT++;
+		return tps;
+	
 	}
-	if (BIGCNT == 100) // keep creating
-	{
-		//startWorld();
-		BIGCNT=0;
-	}
-	BIGCNT++;
-	return tps;
-
-}*/
-
-
-
-
-
-
+	*/
 	public void startWorld()
 	{
-
 		bubbles.add(new bubble(player_dist_from_wall,
 				player_dist_from_wall, 
 				player_size, 0, 0, 1));
@@ -446,14 +387,11 @@ public class World extends PApplet{
 			{
 				size = random(MAX_NEG_SIZE,MAX_SIZE);
 			}
-
 			radius_cnt+=size;		
 
 			//5 buffer so init doesnt hit player
 			int	x = (int)random(size+45,width-size-45);
 			int	y = (int)random(size+45,height-size-45);
-
-
 			float xD = 0;
 			float yD = 0;
 			while( xD == 0 && yD == 0)
@@ -478,7 +416,6 @@ public class World extends PApplet{
 	public void mousePressed() {
 		if(HomFul==false)
 		{
-			//System.err.println(WHICHONE+" "+mouseX+" "+mouseY);
 			if (WHICHONE==topL) {
 				cam[0] = new PVector(mouseX, mouseY, 1);
 				WHICHONE=2;
@@ -502,12 +439,7 @@ public class World extends PApplet{
 			}
 		}
 	}
-	
-	
-	
-	
 	//-------------------------------------------------------------------
-
 	boolean isValid(int i){
 		if ( topLeft[i].x > 0 && topLeft[i].y > 0 && bottomRight[i].x < width && bottomRight[i].y < height &&
 				abs(bottomRight[i].x - topLeft[i].x) > 2 && abs(bottomRight[i].x - topLeft[i].x) < 40 
@@ -520,18 +452,15 @@ public class World extends PApplet{
 		}
 	}
 
-
-
-
 	public void stop() {
 		kinect.quit();
 		//mm.finish();
 		super.stop();
 	}
-
-	
-	/*Calculates the homography matrix by using the reference points 
-	 gathered during the mouse pressed*/
+	/*
+	Calculates the homography matrix by using the reference points 
+	gathered during the mouse pressed
+	*/
 	public void estimateHomography() {
 		// Creates an array of two times the size of the cam[] array 
 		double[][] a = new double[2*cam.length][];
@@ -549,7 +478,6 @@ public class World extends PApplet{
 		Matrix A = new Matrix(a);
 		Matrix T = A.transpose();
 		Matrix X = T.times(A);
-
 		EigenvalueDecomposition E = X.eig();
 		// Find the eigenvalues 
 		double[] eigenvalues = E.getRealEigenvalues();
@@ -564,7 +492,6 @@ public class World extends PApplet{
 				r = i;
 			}
 		}
-		
 		// find the corresponding eigenvector
 		Matrix v = E.getV();  
 		// create the homography matrix from the eigenvector v
@@ -573,7 +500,6 @@ public class World extends PApplet{
 				homography.set(i, j, v.get(i*3+j, r));
 			}
 		}
-
 		println("Estimated H");
 		homography.print(3, 3);
 	}
@@ -585,8 +511,8 @@ public class World extends PApplet{
 		Matrix t = h.times(u);
 		return new PVector((float)(t.get(0, 0)/t.get(2, 0)), (float)(t.get(1, 0)/ (t.get(2, 0))));
 	} 
-
-	PImage subtracted (PImage bgImg, PImage currImg) {                // method for background subtraction
+	// method for background subtraction
+	PImage subtracted (PImage bgImg, PImage currImg) {
 		bgImg.loadPixels(); 
 		currImg.loadPixels();
 		PImage result = createImage(bgImg.width,bgImg.height,RGB);
@@ -609,9 +535,6 @@ public class World extends PApplet{
 		return result;
 	}
 
-
-
-	
 	public ArrayList<float[]> getTrackedPoints(){
 		
         if (bgTaken == false) {              // to take the first background image
@@ -632,18 +555,15 @@ public class World extends PApplet{
 			calibrated = true;
 			// saveHomography();
 		}
-		
-		
 		PImage img = kinect.getVideoImage().get();
-
-	//	image(img,640,0);   // raw depth image from Kinect. Contains noise (background subtraction not done yet)
+		//image(img,640,0);   // raw depth image from Kinect. Contains noise (background subtraction not done yet)
 		img = subtracted(bg,img);
 		img.filter(THRESHOLD, (float)0.5);
 		//image(img,0,0);
     	//loadPixels();
 		img.loadPixels();
 		
-	//	image(img, 0, 0);
+		//image(img, 0, 0);
 		
 
 		detector.findBlobs(img.pixels, img.width, img.height);
@@ -667,7 +587,6 @@ public class World extends PApplet{
 				if ( isValid(i)){  
 					for(int f = 0; f < Max_fingers; f++){
 						if (fingers.size()>1){
-					//		println("A = " + abs(bottomRight[i].x - topLeft[i].x) + "   tot = " + fingers.size());
 						}
 						float[] finCenter = fingers.get(f);
 						distArray[f][i] = abs(finCenter[0] - (topLeft[i].x + bottomRight[i].x)/2) + abs(finCenter[1] - (topLeft[i].y + bottomRight[i].y)/2);
@@ -714,14 +633,11 @@ public class World extends PApplet{
 				fingers.add( ans );
 			}
 		}
-
 		else if (totBlobs > 0){
 			for (int i = 0; i < totBlobs; i++) {
-
 				if ( isValid(i)){   
 					float ans [] = {(topLeft[i].x + bottomRight[i].x)/2,  (topLeft[i].y + bottomRight[i].y)/2, 0, 0, 0 };
 					fingers.add(ans );
-		//			println("B = " + abs(bottomRight[i].x - topLeft[i].x) + "   tot = " + fingers.size());
 				}
 			}    
 		}
@@ -741,7 +657,6 @@ public class World extends PApplet{
 			}
 		}
 
-
 		fill(220,0,0);
 		if (calibrated){
 			for (int i = 0; i < cam.length; i++){ // extra REMOVE 
@@ -750,7 +665,6 @@ public class World extends PApplet{
 				
 			}
 			for (int i = 0; i < fingers.size();i++){
-					//System.err.println(fingers.get(i)[0]+" "+fingers.get(i)[1]);
 					ellipse(fingers.get(i)[0],fingers.get(i)[1],20,20);
 			}
 		}
@@ -758,7 +672,6 @@ public class World extends PApplet{
 	return fingers;
 }
 
-			
 	public PImage flip(PImage img)
 	{
 	  PImage flipped = createImage(img.width, img.height, RGB);
@@ -775,6 +688,5 @@ public class World extends PApplet{
 	  }
 	  return flipped;
 	}
-	
 }
 
