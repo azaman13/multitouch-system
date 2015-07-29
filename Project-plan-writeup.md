@@ -31,7 +31,7 @@ in medium, and escape through the opposite side, but only over the point of cont
 is touched, IR is emitted and the Infrared camera underneath detects this light and thus we detect the finger
 points as brightly lit white blobs.
 
-## HomographyandFingerdetection:
+## Homography and Fingerdetection:
 Our first step is to detect the blobs from the IR camera and filter out and threshold the image so that we get
 only what we want to consider as fingers. But before we even look for blobs we do back ground subtracting which
 lets us to avoid any noises around the corners which might appear as false blobs. We hardcode some threshold
