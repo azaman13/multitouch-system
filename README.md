@@ -31,7 +31,7 @@ in medium, and escape through the opposite side, but only over the point of cont
 is touched, IR is emitted and the Infrared camera underneath detects this light and thus we detect the finger
 points as brightly lit white blobs.
 
-## Homography and Fingerdetection:
+## Homography and Finger detection:
 Our first step is to detect the blobs from the IR camera and filter out and threshold the image so that we get
 only what we want to consider as fingers. But before we even look for blobs we do back ground subtracting which
 lets us to avoid any noises around the corners which might appear as false blobs. We hardcode some threshold
@@ -52,7 +52,7 @@ Saving the homography to a text file is not the best option for us because every
 to readjust the mirror and keystone the projector window. Thus we end up physically moving the setup, which ultimately 
 will change the correspondence between the camera and the projector coordinate system.
 
-## Trackingfingers:
+## Tracking fingers:
 First we filter fingerprints that qualify as legitimate track points. This means checking if the detected fingerprints
 are similar to a certain shape; we describe legitimate track points as those which are elliptical, not too small in area,
 and not too big at the same time.
