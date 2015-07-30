@@ -64,3 +64,13 @@ velocity of the fingerprint in case the finger has been swiped over the screen.
 
 The execution time of the fingerprint tracking algorithm is O(n2), where n is the total number of legitimate fingerprints
 tracked.
+
+
+## This is the link to the demo:
+
+# https://www.youtube.com/watch?v=rYNAWsJHQMM
+
+## Image:
+# http://drablab.org/diymultitouch.png
+
+
